@@ -45,12 +45,16 @@ const Login = () => {
         },
       };
 
+      // const { data } = await axios.post(
+      //   "http://localhost:5000/api/user/login",
+      //   { email, password },
+      //   config
+      // );
       const { data } = await axios.post(
-        "http://localhost:5000/api/user/login",
-        { email, password },
-        config
-      );
-
+  "/api/user/login",
+  { email, password },
+  config
+);
       toast({
         title: "Login Successful",
         status: "success",

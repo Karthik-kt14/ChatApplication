@@ -50,19 +50,39 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const toast = useToast();
 
   // 🔌 SOCKET SETUP
-  useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.emit("setup", user);
+//   useEffect(() => {
+//     socket = io(ENDPOINT);
+//     socket.emit("setup", user);
 
-    socket.on("connected", () => {
-      setSocketConnected(true);
-    });
-    socket.on("typing", () => setIsTyping(true));
-socket.on("stop_typing", () => setIsTyping(false));
-    return () => {
-      socket.disconnect();
-    };
-  }, [user]);
+//     socket.on("connected", () => {
+//       setSocketConnected(true);
+//     });
+//     socket.on("typing", () => setIsTyping(true));
+// socket.on("stop_typing", () => setIsTyping(false));
+//     return () => {
+//       socket.disconnect();
+//     };
+//   }, [user]);
+useEffect(() => {
+  socket = io(
+    process.env.NODE_ENV === "production"
+      ? "/"
+      : "http://localhost:5000"
+  );
+
+  socket.emit("setup", user);
+
+  socket.on("connected", () => {
+    setSocketConnected(true);
+  });
+
+  socket.on("typing", () => setIsTyping(true));
+  socket.on("stop typing", () => setIsTyping(false));
+
+  return () => {
+    socket.disconnect();
+  };
+}, [user]);
   console.log(notification,"----------------")
   // 📩 RECEIVE MESSAGE (REAL-TIME)
   useEffect(() => {
